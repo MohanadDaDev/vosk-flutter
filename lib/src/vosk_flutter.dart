@@ -107,6 +107,8 @@ class VoskFlutterPlugin {
     );
   }
 
+  static SpeechService? _speechService;
+
   /// Init a speech service that will use the provided [recognizer] to process
   /// audio input from the device microphone.
   ///
@@ -121,7 +123,13 @@ class VoskFlutterPlugin {
       'recognizerId': recognizer.id,
       'sampleRate': recognizer.sampleRate,
     });
-    return SpeechService(_channel);
+    _speechService = SpeechService(_channel);
+    return _speechService!;
+  }
+
+  SpeechService? getSpeechService() {
+    _speechService ??= SpeechService(_channel);
+    return _speechService;
   }
 
   Future<void> _methodCallHandler(MethodCall call) async {
